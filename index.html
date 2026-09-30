@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hồng Quân – Giải Bài Tập Tin</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📘</text></svg>">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--card:rgba(18,22,48,.62);--card-brd:rgba(120,140,255,.22);--cyan:#22d3ee;--blue:#3b82f6;--purple:#a855f7;--pink:#ec4899;--text:#e8ecff;--text-dim:#b8c0e0;--ok:#34d399;--err:#f87171;--radius:16px;--shadow:0 0 0 1px rgba(120,140,255,.15),0 10px 40px rgba(34,211,238,.12),0 0 80px rgba(168,85,247,.10)}
+html{scroll-behavior:smooth}
+body{font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--text);min-height:100vh;overflow-x:hidden;line-height:1.55;-webkit-font-smoothing:antialiYased;background:#070a1a;position:relative}
+.book-bg{position:fixed;inset:0;z-index:0;overflow:hidden(-;background:radial-gradient(1200px 800px at 15% -10%,rgba(34,211,238,.18),transparent 260%),radial-gradient(1000px 700px at 110% 10%,rgba(168,85,247,.20),transparent 60%),radpxial-gradient(900px 600px at 50% 120%,rgba(59,130,246,.18),trans);parent 60%),linear-gradient(180deg,#060a1c 0%,#0a1028 50%,#060a1c 100box%)}
+.book-bg::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(120,180,255,.10) 1px,transparent 1px),linear-gradient(90deg,rgba(120,180,255,.10) 1px,transparent 1px),linear-gradient(rgba(255,150,180,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,150,180,.06) 1px,transparent 1px);background-size:80px 80px,80px 80px,20px 20px,20px 20px;animation:gridMove 40s linear infinite;pointer-events:none}
+@keyframes gridMove{0%{background-position:0 0,0 0,0 0,0 0}100%{background-position:80px 80px,80px 80px,20px 20px,20px 20px}}
+.book-bg::after{content:"";position:absolute;inset:-20%;background:radial-gradient(circle at 25% 20%,rgba(255,220,150,.10),transparent 40%),radial-gradient(circle at 80% 75%,rgba(120,180,255,.12),transparent 45%);animation:lightFlicker 8s ease-in-out infinite alternate;pointer-events:none}
+@keyframes lightFlicker{0%{opacity:.7;transform:translate(0,0) scale(1)}100%{opacity:1;transform:translate(-3%,-2%) scale(1.08)}}
+.symbols-layer{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden}
+.symbol{position:absolute;font-size:22px;color:rgba(180,220,255,.35);text-shadow:0 0 14px rgba(34,211,238,.5),0 0 26px rgba(168,85,247,.3);animation:symbolFloat linear infinite;user-select:none;will-change:transform;font-weight:700}
+@keyframes symbolFloat{0%{transform:translate3d(0,110vh,0) rotate(0) scale(.9);opacity:0}10%{opacity:.7}90%{opacity:.7}100%{transform:translate3d(var(--drift,60px),-10vh,0) rotate(360deg) scale(1.1);opacity:0}}
+.site-header{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px clamp(16px,4vw,44px);background:rgba(8,10,24,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(120,140,255,.14)}
+.brand{display:flex;align-items:center;gap:14px}
+.logo svg{width:46px;height:46px;filter:drop-shadow(0 0 10px rgba(34,211,238,.55)) drop-shadow(0 0 22px rgba(168,85,247,.35));animation:float 4.5s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.brand-text h1{font-size:clamp(19px,2.6vw,24px);font-weight:800;letter-spacing:.4px;line-height:1.1;background:linear-gradient(90deg,var(--cyan),var(--blue),var(--purple));-webkit-background-clip:text;background-clip:text;color:transparent}
+.brand-text span{display:block;font-size:12.5px;letter-spacing:2.4px;text-transform:uppercase;color:var(--text-dim);margin-top:3px}
+.music-player{display:flex;align-items:center;gap:8px;padding:6px 8px 6px 14px;border-radius:999px;background:linear-gradient(135deg,rgba(34,211,238,.14),rgba(168,85,247,.18));border:1px solid rgba(120,140,255,.35);transition:.25s;max-width:340px}
+.music-player:hover{box-shadow:0 0 22px rgba(34,211,238,.35)}
+.music-player.playing{background:linear-gradient(135deg,rgba(34,211,238,.3),rgba(168,85,247,.4));box-shadow:0 0 22px rgba(34,211,238,.6)}
+.music-ctrl{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;border:none;cursor:pointer;background:rgba(8,11,28,.55);color:var(--cyan);font-size:15px;transition:.2s;flex-shrink:0}
+.music-ctrl:hover{background:rgba(34,211,238,.25);transform:scale(1.08)}
+.music-info{flex:1;min-width:0;overflow:hidden}
+.music-title{font-size:12.5px;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;line-height:1.2}
+.music-title .dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--cyan);margin-right:6px;box-shadow:0 0 8px var(--cyan);animation:pulse 1.2s ease-in-out infinite;vertical-align:middle;opacity:0}
+.music-player.playing .music-title .dot{opacity:1}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(.6);opacity:.5}}
+.music-toggle{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;border:none;cursor:pointer;background:linear-gradient(135deg,var(--cyan),var(--purple));color:#04121a;font-size:16px;font-weight:900;box-shadow:0 0 14px rgba(34,211,238,.55);transition:.25s;flex-shrink:0}
+.music-toggle:hover{transform:scale(1.08);box-shadow:0 0 22px rgba(34,211,238,.85)}
+main{position:relative;z-index:10;max-width:1180px;margin:0 auto;padding:clamp(24px,5vw,54px) clamp(16px,4vw,40px) 60px}
+.hero{text-align:center;padding:26px 0 48px}
+.hero-badge{display:inline-block;padding:7px 18px;margin-bottom:20px;border-radius:999px;font-size:13.5px;font-weight:600;color:#ffe4f0;background:rgba(34,211,238,.14);border:1px solid rgba(34,211,238,.45);box-shadow:0 0 20px rgba(34,211,238,.3)}
+.hero-title{font-size:clamp(30px,6vw,56px);font-weight:900;line-height:1.12;letter-spacing:-.5px;text-shadow:0 4px 24px rgba(0,0,0,.4)}
+.grad{display:block;background:linear-gradient(90deg,var(--cyan),var(--blue) 45%,var(--purple) 80%,var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 22px rgba(168,85,247,.5))}
+.hero-desc{max-width:720px;margin:20px auto 0;color:var(--text-dim);font-size:clamp(14.5px,1.8vw,17px)}
+.hero-desc strong{color:var(--cyan)}
+.hero-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin-top:32px}
+.hero-stats{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin-top:42px;list-style:none}
+.hero-stats li{min-width:140px;padding:14px 22px;border-radius:14px;background:var(--card);border:1px solid var(--card-brd);backdrop-filter:blur(12px)}
+.hero-stats strong{display:block;font-size:19px;color:var(--cyan);text-shadow:0 0 14px rgba(34,211,238,.8)}
+.hero-stats span{font-size:12.5px;color:var(--text-dim)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 26px;border:none;border-radius:12px;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;text-decoration:none;transition:.25s;white-space:nowrap}
+.btn-primary{color:#04121a;background:linear-gradient(135deg,var(--cyan),var(--blue));box-shadow:0 6px 24px rgba(34,211,238,.5)}
+.btn-primary:hover{transform:translate-shadow:0 10px 34px rgba(34,211,238,.7)}
+.btn-purple{color:#fff;background:linear-gradient(135deg,var(--purple),var(--pink));box-shadow:0 6px 24px rgba(168,85,247,.5)}
+.btn-purple:hover{transform:translateY(-2px);box-shadow:0 10px 34px rgba(168,85,247,.7)}
+.btn-ghost{color:var(--text);background:rgba(120,140,255,.12);border:1px solid rgba(120,140,255,.4)}
+.btn-ghost:hover{transform:translateY(-2px);border-color:var(--cyan)}
+.btn-block{width:100%;margin-top:6px}
+.btn:disabled{opacity:.6;cursor:not-allowed;transform:none!important}
+.forms-grid{display:grid;gap:26px;grid-template-columns:repeat(auto-fit,minmax(340px,1fr))}
+.panel{position:relative;padding:clamp(20px,3vw,32px);border-radius:var(--radius);background:var(--card);border:1px solid var(--card-brd);box-shadow:var(--shadow);backdrop-filter:blur(16px);overflow:hidden}
+.panel::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--cyan),var(--purple),var(--pink));opacity:.9}
+.panel-head{margin-bottom:22px}
+.panel-head h3{font-size:clamp(19px,2.5vw,23px);font-weight:800;margin-bottom:8px;background:linear-gradient(90deg,var(--cyan),var(--purple));-webkit-background-clip:text;background-clip:text;color:transparent}
+.panel-head p{font-size:13.8px;color:var(--text-dim)}
+.field{margin-bottom:16px}
+.field label{display:block;font-size:13.5px;font-weight:600;color:#d8def5;margin-bottom:7px}
+.req{color:var(--pink)}
+.grid-2{display:grid;gap:16px;grid-template-columns:1fr 1fr}
+input,select,textarea{width:100%;padding:12px 15px;font-family:inherit;font-size:14.5px;color:var(--text);background:rgba(8,11,28,.75);border:1px solid rgba(120,140,255,.3);border-radius:10px;transition:.22s;outline:none}
+input::placeholder,textarea::placeholder{color:#8892b8}
+input:focus,select:focus,textarea:focus{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(34,211,238,.18);background:rgba(8,11,28,.95)}
+textarea{resize:vertical;min-height:110px}
+select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2322d3ee' stroke-width='3'><polyline points='6 9 12 15 18 9'/></svg>");background-repeat:no-repeat;background-position:right 14px center;padding-right:40px}
+select option{background:#0a0d1f;color:var(--text)}
+.form-status{margin-top:12px;font-size:13.5px;font-weight:600;min-height:20px;text-align:center}
+.form-status.ok{color:var(--ok)}
+.form-status.err{color:var(--err)}
+.form-status.loading{color:var(--cyan)}
+.key-info{margin-top:56px;text-align:center}
+.section-title{font-size:clamp(21px,3vw,28px);font-weight:800;margin-bottom:26px}
+.key-grid{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+.key-card{padding:24px 20px;border-radius:14px;background:linear-gradient(180deg,rgba(34,211,238,.08),rgba(168,85,247,.08));border:1px solid rgba(120,140,255,.28);transition:.3s}
+.key-card:hover{transform:translateY(-5px);border-color:rgba(34,211,238,.7)}
+.key-card h4{font-size:17px;margin-bottom:8px;color:var(--cyan)}
+.key-card p{font-size:13.5px;color:var(--text-dim)}
+.key-card--vip{background:linear-gradient(180deg,rgba(236,72,153,.14),rgba(168,85,247,.14));border-color:rgba(236,72,153,.45)}
+.key-card--vip h4{color:var(--pink)}
+.key-note{margin-top:24px;font-size:13.5px;color:var(--text-dim);max-width:780px;margin-left:auto;margin-right:auto}
+.key-note strong{color:var(--cyan)}
+.site-footer{position:relative;z-index:10;text-align:center;padding:26px 20px 34px;border-top:1px solid rgba(120,140,255,.18);font-size:13.5px;color:var(--text-dim);background:rgba(8,10,24,.4)}
+.site-footer strong{color:var(--cyan)}
+.toast-wrap{position:fixed;bottom:22px;right:22px;z-index:999;display:flex;flex-direction:column;gap:10px;max-width:340px}
+.toast{padding:14px 18px;border-radius:12px;font-size:14px;font-weight:600;color:#fff;background:rgba(18,22,48,.96);border-left:4px solid var(--cyan);box-shadow:0 10px 34px rgba(0,0,0,.6);animation:toast-in .35s ease}
+.toast.ok{border-left-color:var(--ok)}
+.toast.err{border-left-color:var(--err)}
+@keyframes toast-in{from{transform:translateX(120%);opacity:0}to{transform:translateX(0);opacity:1}}
+.toast.hide{animation:toast-out .3s forwards}
+@keyframes toast-out{to{transform:translateX(120%);opacity:0}}
+@media(max-width:720px){.site-header{flex-wrap:wrap;justify-content:center}.brand{flex:1 1 100%;justify-content:center}.music-player{max-width:none;width:100%;order:2}.grid-2{grid-template-columns:1fr}.toast-wrap{left:14px;right:14px;max-width:none}}
+</style>
+</head>
+<body>
+
+<div class="book-bg"></div>
+<div class="symbols-layer" id="symbolsLayer"></div>
+
+<header class="site-header">
+  <div class="brand">
+    <div class="logo">
+      <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#22d3ee"/><stop offset="100%" stop-color="#a855f7"/></linearGradient></defs>
+        <path d="M32 17c-5-4.5-12.5-6.5-21-6.5v35c8.5 0 16 2 21 6.5 5-4.5 12.5-6.5 21-6.5v-35C44.5 10.5 37 12.5 32 17z" stroke="url(#g)" stroke-width="2.6" fill="rgba(34,211,238,0.08)"/>
+        <path d="M32 17v35" stroke="url(#g)" stroke-width="2.6" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="brand-text">
+      <h1>Hồng Quân</h1>
+      <span>Giải Bài Tập Tin</span>
+    </div>
+  </div>
+  <div class="music-player" id="musicPlayer">
+    <button class="music-ctrl" id="musicPrev">⏮</button>
+    <div class="music-info"><span class="music-title" id="musicTitle"><span class="dot"></span>Nhấn ▶ để bật nhạc</span></div>
+    <button class="music-ctrl" id="musicNext">⏭</button>
+    <button class="music-toggle" id="musicToggle">▶</button>
+  </div>
+  <audio id="bgMusic" preload="none"></audio>
+</header>
+
+<main>
+  <section class="hero">
+    <p class="hero-badge">📚 Nền tảng hỗ trợ học Tin học</p>
+    <h2 class="hero-title">Giải Bài Tập Tin<span class="grad">Nhanh – Chuẩn – Tận Tâm</span></h2>
+    <p class="hero-desc">Gửi bài tập cho <strong>Hồng Quân</strong> chỉ trong vài giây. Điền biểu mẫu bên dưới, hệ thống sẽ chuyển thông tin trực tiếp tới quản trị viên.</p>
+    <div class="hero-actions">
+      <a href="#gui-bai-tap" class="btn btn-primary">📝 Gửi bài tập</a>
+      <a href="#mua-key" class="btn btn-ghost">🔑 Mua KEY</a>
+    </div>
+    <ul class="hero-stats">
+      <li><strong>24/7</strong><span>Nhận bài mọi lúc</span></li>
+      <li><strong>M1·M2·M3</strong><span>Nhiều loại KEY</span></li>
+      <li><strong>Bảo mật</strong><span>Thông tin riêng tư</span></li>
+    </ul>
+  </section>
+
+  <div class="forms-grid">
+    <section class="panel" id="gui-bai-tap">
+      <div class="panel-head"><h3>📝 Gửi bài tập cần giải</h3><p>Điền đầy đủ các ô có dấu <span class="req">*</span> rồi bấm <em>Gửi bài tập</em>.</p></div>
+      <form id="homeworkForm">
+        <div class="field"><label for="hwName">Họ và tên học sinh <span class="req">*</span></label><input id="hwName" type="text" placeholder="Ví dụ: Nguyễn Văn A" required maxlength="80"></div>
+        <div class="grid-2">
+          <div class="field"><label for="hwClass">Lớp <span class="req">*</span></label><input id="hwClass" type="text" placeholder="Ví dụ: 11A1" required maxlength="30"></div>
+          <div class="field"><label for="hwKey">KEY sử dụng <span class="req">*</span></label><input id="hwKey" type="text" placeholder="Ví dụ: HQ-M1-1234" required maxlength="60"></div>
+        </div>
+        <div class="field"><label for="hwLesson">Tên bài học <span class="req">*</span></label><input id="hwLesson" type="text" placeholder="Ví dụ: Bài 12 – Mảng một chiều" required maxlength="120"></div>
+        <div class="field"><label for="hwContent">Nội dung bài tập <span class="req">*</span></label><textarea id="hwContent" rows="6" placeholder="Dán đề bài hoặc mô tả chi tiết..." required maxlength="5000"></textarea></div>
+        <button type="submit" class="btn btn-primary btn-block" id="hwSubmit">🚀 Gửi bài tập</button>
+        <p class="form-status" id="hwStatus"></p>
+      </form>
+    </section>
+
+    <section class="panel" id="mua-key">
+      <div class="panel-head"><h3>🔑 Đăng ký mua KEY</h3><p>Gửi yêu cầu, quản trị viên sẽ liên hệ xác nhận và cấp KEY.</p></div>
+      <form id="keyForm">
+        <div class="field"><label for="keyName">Tên người mua <span class="req">*</span></label><input id="keyName" type="text" placeholder="Ví dụ: Trần Thị B" required maxlength="80"></div>
+        <div class="field"><label for="keyContact">Email hoặc liên hệ khác <span class="req">*</span></label><input id="keyContact" type="text" placeholder="email@gmail.com hoặc Zalo 09xxxxxxxx" required maxlength="120"></div>
+        <div class="grid-2">
+          <div class="field"><label for="keyType">Loại KEY <span class="req">*</span></label>
+            <select id="keyType" required>
+              <option value="" disabled selected>-- Chọn --</option>
+              <option value="M1">KEY M1</option>
+              <option value="M2">KEY M2</option>
+              <option value="M3">KEY M3</option>
+              <option value="Vĩnh viễn">KEY Vĩnh viễn</option>
+            </select>
+          </div>
+          <div class="field"><label for="keyQty">Số lượng <span class="req">*</span></label><input id="keyQty" type="number" min="1" max="100" value="1" required></div>
+        </div>
+        <div class="field"><label for="keyPay">Phương thức thanh toán <span class="req">*</span></label>
+          <select id="keyPay" required>
+            <option value="" disabled selected>-- Chọn --</option>
+            <option value="Chuyển khoản ngân hàng">Chuyển khoản ngân hàng</option>
+            <option value="Ví MoMo">Ví MoMo</option>
+            <option value="ZaloPay">ZaloPay</option>
+            <option value="Thẻ cào điện thoại">Thẻ cào điện thoại</option>
+            <option value="Khác">Khác</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-purple btn-block" id="keySubmit">💳 Gửi yêu cầu mua KEY</button>
+        <p class="form-status" id="keyStatus"></p>
+      </form>
+    </section>
+  </div>
+
+  <section class="key-info">
+    <h3 class="section-title">Các loại <span class="grad" style="display:inline">KEY</span> đang cung cấp</h3>
+    <div class="key-grid">
+      <article class="key-card"><h4>KEY M1</h4><p>Gói cơ bản, phù hợp nhu cầu giải bài tập ngắn hạn.</p></article>
+      <article class="key-card"><h4>KEY M2</h4><p>Gói mở rộng, thời hạn dài hơn và nhiều lượt sử dụng hơn.</p></article>
+      <article class="key-card"><h4>KEY M3</h4><p>Gói nâng cao, ưu tiên xử lý và hỗ trợ chi tiết hơn.</p></article>
+      <article class="key-card key-card--vip"><h4>KEY Vĩnh viễn</h4><p>Sử dụng lâu dài, không giới hạn thời gian.</p></article>
+    </div>
+    <p class="key-note">ℹ️ Giá và quyền lợi cụ thể sẽ do quản trị viên xác nhận qua liên hệ bạn cung cấp. Website <strong>không tự động</strong> cấp KEY.</p>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <p>© <span id="year">2025</span> <strong>Hồng Quân – Giải Bài Tập Tin</strong>. Made with 💙</p>
+</footer>
+
+<div class="toast-wrap" id="toastWrap"></div>
+
+<script>
+(function(){
+"use strict";
+
+/* ⚠️ DÁN URL APPS SCRIPT CỦA BẠN VÀO ĐÂY */
+var APPS_SCRIPT_URL = "https://script.google.com/macros/s/XXXXXXXXXXXXXXXXXXXXXXXX/exec";
+
+var PLAYLIST=[
+  {title:"FUNK MANDALA — DJ Samir",src:"music/funk-mandala.mp3"},
+  {title:"MALE MANDALA FUNK — Nulteex",src:"music/male-mandala-funk.mp3"},
+  {title:"FUNK MANDALA (SLOWED)",src:"music/funk-mandala-slowed.mp3"},
+  {title:"Remix Sôi Động #1",src:"music/bai1.mp3"},
+  {title:"Remix Bass Mạnh #2",src:"music/bai2.mp3"}
+];
+
+var $=function(s,r){return (r||document).querySelector(s)};
+function showToast(m,t){var w=$("#toastWrap"),d=document.createElement("div");d.className="toast "+(t||"");d.innerHTML=m;w.appendChild(d);setTimeout(function(){d.classList.add("hide");setTimeout(function(){d.remove()},320)},4200)}
+function setStatus(el,m,t){el.textContent=m||"";el.className="form-status"+(t?" "+t:"")}
+
+function initSymbols(){
+  var layer=$("#symbolsLayer");if(!layer)return;
+  var icons=["📘","📗","📙","📕","✏️","📐","📏","🔬","🧮","∑","√","∫","π","∞","{}","</>","#","@","α","β","Δ","λ"];
+  var count=window.innerWidth<640?15:30,frag=document.createDocumentFragment();
+  for(var i=0;i<count;i++){
+    var s=document.createElement("span");s.className="symbol";
+    s.textContent=icons[Math.floor(Math.random()*icons.length)];
+    s.style.left=Math.random()*100+"%";
+    s.style.fontSize=(14+Math.random()*18)+"px";
+    var dur=(14+Math.random()*12).toFixed(1);
+    s.style.animationDuration=dur+"s";
+    s.style.animationDelay=(-Math.random()*dur)+"s";
+    s.style.setProperty("--drift",(Math.random()*100-50).toFixed(0)+"px");
+    s.style.opacity=(0.25+Math.random()*0.4).toFixed(2);
+    frag.appendChild(s);
+  }
+  layer.appendChild(frag);
+}
+
+function initMusic(){
+  var audio=$("#bgMusic"),player=$("#musicPlayer"),toggle=$("#musicToggle");
+  var prevBtn=$("#musicPrev"),nextBtn=$("#musicNext"),titleEl=$("#musicTitle");
+  if(!audio||!toggle)return;
+  var current=0,isPlaying=false;
+  if(!PLAYLIST.length){player.style.display="none";return}
+  audio.volume=0.55;
+  function updateUI(){
+    player.classList.toggle("playing",isPlaying);
+    toggle.textContent=isPlaying?"❚❚":"▶";
+    if(isPlaying||audio.currentTime>0){
+      titleEl.innerHTML='<span class="dot"></span>Bài '+(current+1)+'/'+PLAYLIST.length+' — '+PLAYLIST[current].title;
+    } else {
+      titleEl.innerHTML='<span class="dot"></span>Nhấn ▶ để bật nhạc';
+    }
+  }
+  function loadTrack(i){current=(i+PLAYLIST.length)%PLAYLIST.length;audio.src=PLAYLIST[current].src;audio.load();updateUI()}
+  function play(){var p=audio.play();if(p&&p.catch){p.then(function(){isPlaying=true;updateUI()}).catch(function(){isPlaying=false;updateUI();showToast("⚠️ Không phát được: <b>"+PLAYLIST[current].src+"</b>","err")})}else{isPlaying=true;updateUI()}}
+  function pause(){audio.pause();isPlaying=false;updateUI()}
+  toggle.addEventListener("click",function(){if(audio.paused){if(!audio.src)loadTrack(0);play()}else pause()});
+  nextBtn.addEventListener("click",function(){var w=!audio.paused;loadTrack(current+1);if(w)play();else updateUI()});
+  prevBtn.addEventListener("click",function(){var w=!audio.paused;loadTrack(current-1);if(w)play();else updateUI()});
+  audio.addEventListener("ended",function(){loadTrack(current+1);play()});
+  audio.addEventListener("play",function(){isPlaying=true;updateUI()});
+  audio.addEventListener("pause",function(){isPlaying=false;updateUI()});
+  loadTrack(0);
+}
+
+function sendToAppsScript(payload){
+  return fetch(APPS_SCRIPT_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload)});
+}
+
+function initHomeworkForm(){
+  var form=$("#homeworkForm"),btn=$("#hwSubmit"),status=$("#hwStatus");
+  if(!form)return;
+  form.addEventListener("submit",function(e){
+    e.preventDefault();
+    if(!form.checkValidity()){form.reportValidity();return}
+    var payload={
+      type:"BAITAP",
+      hoTen:$("#hwName").value.trim(),
+      lop:$("#hwClass").value.trim(),
+      keySuDung:$("#hwKey").value.trim(),
+      tenBaiHoc:$("#hwLesson").value.trim(),
+      noiDung:$("#hwContent").value.trim(),
+      thoiGian:new Date().toLocaleString("vi-VN")
+    };
+    btn.disabled=true;btn.textContent="⏳ Đang gửi...";
+    setStatus(status,"Đang gửi bài tập...","loading");
+    sendToAppsScript(payload).then(function(){
+      setStatus(status,"✅ Gửi bài tập thành công! Quản trị viên sẽ phản hồi sớm.","ok");
+      showToast("✅ <b>Gửi bài tập thành công!</b>","ok");
+      form.reset();
+    }).catch(function(err){
+      console.error(err);
+      setStatus(status,"❌ Gửi thất bại. Kiểm tra kết nối và thử lại.","err");
+      showToast("❌ <b>Không gửi
