@@ -7,7 +7,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-/* ================== RESET ================== */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
@@ -33,7 +32,6 @@ html, body {
   overflow-x: hidden;
 }
 
-/* ================== TUYẾT RƠI ================== */
 #snowCanvas {
   position: fixed;
   top: 0; left: 0;
@@ -42,7 +40,6 @@ html, body {
   z-index: 1;
 }
 
-/* ================== NHẠC ================== */
 .music-btn {
   position: fixed;
   top: 16px; right: 16px;
@@ -66,7 +63,6 @@ html, body {
   50%     { box-shadow: 0 0 30px var(--neon-blue), 0 0 60px var(--neon-purple); }
 }
 
-/* ================== HEADER ================== */
 .header {
   position: relative;
   z-index: 2;
@@ -110,7 +106,6 @@ html, body {
 
 .tagline { margin-top: 14px; color: var(--muted); font-size: 15px; }
 
-/* ================== CONTAINER ================== */
 .container {
   position: relative;
   z-index: 2;
@@ -122,7 +117,6 @@ html, body {
   gap: 26px;
 }
 
-/* ================== CARD ================== */
 .card {
   background: var(--card-bg);
   border: 1px solid var(--border);
@@ -144,7 +138,6 @@ html, body {
 
 .intro p { color: var(--muted); line-height: 1.7; }
 
-/* ================== FORM ================== */
 .neon-form { display: flex; flex-direction: column; gap: 16px; }
 
 .form-row {
@@ -191,7 +184,6 @@ html, body {
 
 .form-group select option { background: #0c1030; color: #fff; }
 
-/* ================== BUTTON ================== */
 .btn {
   position: relative;
   padding: 14px 22px;
@@ -219,7 +211,6 @@ html, body {
 .btn:not(:disabled):hover { transform: translateY(-2px); filter: brightness(1.1); }
 .btn:not(:disabled):active { transform: translateY(0); }
 
-/* ================== THÔNG BÁO ================== */
 .form-msg {
   margin-top: 6px;
   padding: 12px 14px;
@@ -247,7 +238,6 @@ html, body {
 }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
 
-/* ================== FOOTER ================== */
 .footer {
   text-align: center;
   color: var(--muted);
@@ -256,7 +246,6 @@ html, body {
   border-top: 1px solid rgba(0,229,255,0.12);
 }
 
-/* ================== MOBILE ================== */
 @media (max-width: 480px) {
   .header { padding: 50px 14px 20px; }
   .card { padding: 20px 16px; }
@@ -266,16 +255,13 @@ html, body {
 </head>
 <body>
 
-<!-- Tuyết rơi -->
 <canvas id="snowCanvas"></canvas>
 
-<!-- Nhạc nền -->
 <audio id="bgMusic" loop>
   <source src="music.mp3" type="audio/mpeg" />
 </audio>
 <button id="musicBtn" class="music-btn" title="Bật / tắt nhạc">🔇 Bật nhạc</button>
 
-<!-- Header -->
 <header class="header">
   <div class="logo">
     <div class="book-icon">
@@ -289,13 +275,11 @@ html, body {
 
 <main class="container">
 
-  <!-- Giới thiệu -->
   <section class="card intro">
     <h2>✨ Chào mừng đến với Hồng Quân</h2>
     <p>Website hỗ trợ học sinh – sinh viên giải bài tập Tin học, lập trình, tin học văn phòng. Gửi bài tập hoặc mua KEY để sử dụng dịch vụ.</p>
   </section>
 
-  <!-- FORM 1: GỬI BÀI TẬP -->
   <section class="card">
     <h2>📝 Gửi bài tập cần giải</h2>
     <form id="homeworkForm" class="neon-form">
@@ -334,7 +318,6 @@ html, body {
     </form>
   </section>
 
-  <!-- FORM 2: MUA KEY -->
   <section class="card">
     <h2>🔑 Mua KEY sử dụng dịch vụ</h2>
     <form id="keyForm" class="neon-form">
@@ -396,13 +379,11 @@ html, body {
    HỒNG QUÂN – GIẢI BÀI TẬP TIN
    ========================================================= */
 
-/* ----------------------------------------------------------
-   ⚙️ CẤU HÌNH – URL GOOGLE APPS SCRIPT
----------------------------------------------------------- */
+/* ⚙️ URL Apps Script */
 const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxxlYlwvhTBbyfo1r082PBdYz0kyIo2bLawhjcPn86jwgDmT7OtJXV79kuf0Mxw4n5sgQ/exec";
 
 /* ----------------------------------------------------------
-   1. NHẠC NỀN – BẬT / TẮT
+   NHẠC NỀN
 ---------------------------------------------------------- */
 const musicBtn = document.getElementById("musicBtn");
 const bgMusic  = document.getElementById("bgMusic");
@@ -417,9 +398,7 @@ musicBtn.addEventListener("click", () => {
         musicBtn.textContent = "🔊 Tắt nhạc";
         musicBtn.classList.add("playing");
       })
-      .catch(err => {
-        alert("Không phát được nhạc. Hãy kiểm tra file music.mp3 đã được tải lên chưa.\n\nLỗi: " + err.message);
-      });
+      .catch(err => alert("Không phát được nhạc. Kiểm tra file music.mp3.\n\n" + err.message));
   } else {
     bgMusic.pause();
     isPlaying = false;
@@ -429,7 +408,7 @@ musicBtn.addEventListener("click", () => {
 });
 
 /* ----------------------------------------------------------
-   2. HIỆU ỨNG TUYẾT RƠI
+   TUYẾT RƠI
 ---------------------------------------------------------- */
 (function snowEffect() {
   const canvas = document.getElementById("snowCanvas");
@@ -475,7 +454,7 @@ musicBtn.addEventListener("click", () => {
 })();
 
 /* ----------------------------------------------------------
-   3. TIỆN ÍCH HIỂN THỊ THÔNG BÁO
+   TIỆN ÍCH
 ---------------------------------------------------------- */
 function showMsg(el, text, type = "success") {
   el.textContent = text;
@@ -493,25 +472,48 @@ function toggleLoading(btn, loading) {
   else         { txt.hidden = false; spn.hidden = true; }
 }
 
-/* ----------------------------------------------------------
-   4. GỬI DỮ LIỆU LÊN GOOGLE APPS SCRIPT
-   Dùng mode:"no-cors" để tránh lỗi CORS của Google Apps Script.
-   Server vẫn nhận được dữ liệu và gửi mail bình thường.
-   JS không đọc được response → giả định thành công nếu không throw.
----------------------------------------------------------- */
-async function sendToAppsScript(data) {
-  const body = new URLSearchParams(data).toString();
-  await fetch(APPS_SCRIPT_URL, {
-    method: "POST",
-    mode: "no-cors",
-    headers: { "Content-Type": "text/plain;charset=UTF-8" },
-    body: body
+/* ==========================================================
+   GỬI DỮ LIỆU BẰNG IFRAME ẨN + FORM ẨN
+   Cách này KHÔNG bị CORS, KHÔNG bị "Failed to fetch",
+   chạy được cả khi mở file local hoặc trên GitHub Pages.
+   ========================================================== */
+function sendToAppsScript(data) {
+  return new Promise((resolve) => {
+    const iframeName = "hq_iframe_" + Date.now() + "_" + Math.floor(Math.random()*1000);
+
+    const iframe = document.createElement("iframe");
+    iframe.name = iframeName;
+    iframe.style.display = "none";
+    document.body.appendChild(iframe);
+
+    const form = document.createElement("form");
+    form.method = "POST";
+    form.action = APPS_SCRIPT_URL;
+    form.target = iframeName;
+    form.style.display = "none";
+
+    for (const key in data) {
+      const input = document.createElement("input");
+      input.type = "hidden";
+      input.name = key;
+      input.value = data[key];
+      form.appendChild(input);
+    }
+
+    document.body.appendChild(form);
+    form.submit();
+
+    // Dọn dẹp sau 4 giây
+    setTimeout(() => {
+      if (form.parentNode) form.parentNode.removeChild(form);
+      if (iframe.parentNode) iframe.parentNode.removeChild(iframe);
+      resolve({ success: true });
+    }, 4000);
   });
-  return { success: true };
 }
 
 /* ----------------------------------------------------------
-   5. FORM GỬI BÀI TẬP
+   FORM 1: GỬI BÀI TẬP
 ---------------------------------------------------------- */
 const homeworkForm = document.getElementById("homeworkForm");
 const hwMsg        = document.getElementById("hwMsg");
@@ -522,16 +524,16 @@ homeworkForm.addEventListener("submit", async (e) => {
   hideMsg(hwMsg);
 
   const data = {
-    type:      "homework",
-    name:      document.getElementById("hwName").value.trim(),
-    class:     document.getElementById("hwClass").value.trim(),
-    key:       document.getElementById("hwKey").value.trim(),
-    title:     document.getElementById("hwTitle").value.trim(),
-    content:   document.getElementById("hwContent").value.trim(),
+    type:        "homework",
+    name:        document.getElementById("hwName").value.trim(),
+    "class":     document.getElementById("hwClass").value.trim(),
+    key:         document.getElementById("hwKey").value.trim(),
+    title:       document.getElementById("hwTitle").value.trim(),
+    content:     document.getElementById("hwContent").value.trim(),
     submittedAt: new Date().toLocaleString("vi-VN")
   };
 
-  if (!data.name || !data.class || !data.key || !data.title || !data.content) {
+  if (!data.name || !data["class"] || !data.key || !data.title || !data.content) {
     showMsg(hwMsg, "⚠️ Vui lòng điền đầy đủ tất cả các trường bắt buộc.", "error");
     return;
   }
@@ -546,14 +548,14 @@ homeworkForm.addEventListener("submit", async (e) => {
       "success");
     homeworkForm.reset();
   } catch (err) {
-    showMsg(hwMsg, "❌ Gửi thất bại: " + err.message + ". Vui lòng thử lại sau.", "error");
+    showMsg(hwMsg, "❌ Gửi thất bại: " + err.message, "error");
   } finally {
     toggleLoading(hwSubmitBtn, false);
   }
 });
 
 /* ----------------------------------------------------------
-   6. FORM MUA KEY
+   FORM 2: MUA KEY
 ---------------------------------------------------------- */
 const keyForm      = document.getElementById("keyForm");
 const buyMsg       = document.getElementById("buyMsg");
@@ -564,12 +566,12 @@ keyForm.addEventListener("submit", async (e) => {
   hideMsg(buyMsg);
 
   const data = {
-    type:      "buykey",
-    name:      document.getElementById("buyName").value.trim(),
-    contact:   document.getElementById("buyContact").value.trim(),
-    keyType:   document.getElementById("buyType").value,
-    quantity:  document.getElementById("buyQty").value,
-    payment:   document.getElementById("buyPay").value,
+    type:        "buykey",
+    name:        document.getElementById("buyName").value.trim(),
+    contact:     document.getElementById("buyContact").value.trim(),
+    keyType:     document.getElementById("buyType").value,
+    quantity:    document.getElementById("buyQty").value,
+    payment:     document.getElementById("buyPay").value,
     submittedAt: new Date().toLocaleString("vi-VN")
   };
 
@@ -584,18 +586,18 @@ keyForm.addEventListener("submit", async (e) => {
   try {
     await sendToAppsScript(data);
     showMsg(buyMsg,
-      "✅ Đã gửi yêu cầu mua KEY thành công!\n\n📩 Vui lòng chờ quản trị viên liên hệ xác nhận thanh toán và cấp KEY qua email/SĐT bạn đã cung cấp. Website KHÔNG tự động xác nhận thanh toán hoặc cấp KEY.",
+      "✅ Đã gửi yêu cầu mua KEY thành công!\n\n📩 Vui lòng chờ quản trị viên liên hệ xác nhận thanh toán và cấp KEY qua email/SĐT bạn đã cung cấp.",
       "success");
     keyForm.reset();
   } catch (err) {
-    showMsg(buyMsg, "❌ Gửi thất bại: " + err.message + ". Vui lòng thử lại sau.", "error");
+    showMsg(buyMsg, "❌ Gửi thất bại: " + err.message, "error");
   } finally {
     toggleLoading(buySubmitBtn, false);
   }
 });
 
 /* ----------------------------------------------------------
-   7. NĂM Ở FOOTER
+   NĂM
 ---------------------------------------------------------- */
 document.getElementById("year").textContent = new Date().getFullYear();
 </script>
