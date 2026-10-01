@@ -495,13 +495,15 @@ function toggleLoading(btn, loading) {
 
 /* ----------------------------------------------------------
    4. GỬI DỮ LIỆU LÊN GOOGLE APPS SCRIPT
+   Dùng text/plain để tránh CORS preflight của Apps Script.
 ---------------------------------------------------------- */
 async function sendToAppsScript(data) {
   const body = new URLSearchParams(data).toString();
   const res = await fetch(APPS_SCRIPT_URL, {
     method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
-    body: body
+    headers: { "Content-Type": "text/plain;charset=UTF-8" },
+    body: body,
+    redirect: "follow"
   });
   if (!res.ok) throw new Error("HTTP " + res.status);
   const json = await res.json();
