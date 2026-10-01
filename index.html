@@ -495,20 +495,19 @@ function toggleLoading(btn, loading) {
 
 /* ----------------------------------------------------------
    4. GỬI DỮ LIỆU LÊN GOOGLE APPS SCRIPT
-   Dùng text/plain để tránh CORS preflight của Apps Script.
+   Dùng mode:"no-cors" để tránh lỗi CORS của Google Apps Script.
+   Server vẫn nhận được dữ liệu và gửi mail bình thường.
+   JS không đọc được response → giả định thành công nếu không throw.
 ---------------------------------------------------------- */
 async function sendToAppsScript(data) {
   const body = new URLSearchParams(data).toString();
-  const res = await fetch(APPS_SCRIPT_URL, {
+  await fetch(APPS_SCRIPT_URL, {
     method: "POST",
+    mode: "no-cors",
     headers: { "Content-Type": "text/plain;charset=UTF-8" },
-    body: body,
-    redirect: "follow"
+    body: body
   });
-  if (!res.ok) throw new Error("HTTP " + res.status);
-  const json = await res.json();
-  if (!json.success) throw new Error(json.message || "Lỗi không xác định từ server");
-  return json;
+  return { success: true };
 }
 
 /* ----------------------------------------------------------
